@@ -1,21 +1,82 @@
-//
-// Copyright (c) 2019 Phillip Kruger
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-//
-
 [[setup]]
 
 == Setup
 
-#TODO: Explain local setup needed (oc) or install docker to get termainal#
+=== Web console
+
+#TODO: Add login and url details here#
+
+=== CLI (oc)
+
+With the OpenShift Enterprise command line interface (CLI), you can create applications and manage OpenShift projects from a terminal. 
+The CLI is ideal in situations where you are:
+
+* Working directly with project source code.
+* Scripting OpenShift Enterprise operations.
+* Restricted by bandwidth resources and cannot use the web console.
+
+The CLI is available using the oc command:
+
+[source,bash]
+----
+oc <command>
+----
+
+You have two options to get a working CLI. Either install `oc` on your localhost or use a docker image in OpenShift:
+
+==== Option 1: Installing the CLI on localhost
+
+The easiest way to download the CLI is by accessing the About page on the web console [ (?)-> About ]
+
+image::screenshot_cli.png[About CLI]
+
+or you can follow the instructions from the https://docs.openshift.com/container-platform/3.11/cli_reference/get_started_cli.html[official documentation]
+
+==== Option 2: Use a pre-configured docker image on OpenShift
+
+This option install and run a docker image inside OpenShift that already has oc installed and configured. 
+To install this image, do the following:
+
+* Login to the OCP system through the UI. (userX / openshift)
+* Create a new project:
+** *Name:* oconline-userX
+** *Display Name:* OC Terminal
+
+image::screenshot_oc_terminal.png[OC terminal]
+
+Select the newly created `OC Terminal` project and then select `Deploy Image`
+
+Use the Image Name option and add the folling name:
+
+[source,bash]
+----
+quay.io/ilawson/oconline:latest
+----
+
+Click search and then leave the default values in the metadata form and click `Deploy`
+
+image::screenshot_oc_docker_image.png[Deploy image]
+
+Once the image has deployed and a Pod will appear
+
+* Click on the Pod ring (blue)
+* Select `Terminal` from the options (This will be _your terminal_ you can use to do `oc` commands)
+
+NOTE: It might be easier to keep this project with the terminal view open in a separate browser tab, so that you  can switch back and forth to it easy
+
+=== Using your terminal (Both options)
+
+If this document refer to _your terminal_ it will either be on your localhost or the docker install terminal depending your option above.
+
+* In the Web Console, select the top right pulldown, choose `Copy Login Command`
+
+image::screenshot_copy_login.png[Deploy image]
+
+* Paste that command into _your terminal_, hit return - hit ‘y’ for insecure access
+
+image::screenshot_terminal.png[Deploy image]
+
+* Type `oc whoami`
+* Type `oc version`
+
+image::screenshot_whoami_version.png[Basic oc commands]
