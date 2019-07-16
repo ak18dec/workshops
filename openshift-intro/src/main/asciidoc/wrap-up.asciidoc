@@ -14,14 +14,8 @@
 // limitations under the License.
 //
 
-[[intro]]
+[[wrapup]]
 
-== Introduction
+== Wrap-up
 
-This workshop is designed to give developers an introduction to Openshift
-
-#TODO: Add basic What is Openshift ?#
-
-#TODO: Add more info in the intended audience#
-
-#TODO: Add relevant links#
+#TODO: add#
