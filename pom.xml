@@ -19,7 +19,7 @@
 
     <groupId>com.github.phillip-kruger</groupId>
     <artifactId>workshops</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
 
     <name>Workshops</name>
 
@@ -113,6 +113,8 @@
                                 <revnumber>${project.version}</revnumber>
                                 <revremark>${revremark}</revremark>
                                 <revdate>${revisiondate}</revdate>
+                                <facilitatorName>${facilitatorName}</facilitatorName>
+                                <facilitatorEmail>${facilitatorEmail}</facilitatorEmail>
                             </attributes>
                         </configuration>
                     </execution>

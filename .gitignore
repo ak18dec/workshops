@@ -26,3 +26,4 @@ hs_err_pid*
 /openshift-intro/target/
 .settings/
 *.code-workspace
+.vscode/settings.json

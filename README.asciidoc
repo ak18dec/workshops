@@ -6,7 +6,9 @@ To create the materials, run:
 
 [source,bash]
 ----
-mvn clean package
+mvn clean package -DfacilitatorName='Phillip Kruger' -DfacilitatorEmail='phillip.kruger@redhat.com'
 ----
+
+You should of course replace the facilitator name and email with your own.
 
 The documents will be available in the `targer/generated-docs` folder
