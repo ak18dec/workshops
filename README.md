@@ -1,2 +1,0 @@
-# workshops
-Some workshop material

@@ -1,0 +1,12 @@
+== Workshops
+
+This repo contains workshop materials for attendees for various workshops.
+
+To create the materials, run:
+
+[source,bash]
+----
+mvn clean package
+----
+
+The documents will be available in the `targer/generated-docs` folder
