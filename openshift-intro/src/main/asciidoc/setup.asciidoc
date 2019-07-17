@@ -74,7 +74,7 @@ Once the image has deployed and a Pod will appear
 * Click on the Pod ring (blue)
 * Select `Terminal` from the options (This will be _your terminal_ you can use to do `oc` commands)
 
-NOTE: It might be easier to keep this project with the terminal view open in a separate browser tab, so that you  can switch back and forth to it easy
+TIP: It might be easier to keep this project with the terminal view open in a separate browser tab, so that you  can switch back and forth to it easy
 
 === Using your terminal (Both options)
 
@@ -92,3 +92,5 @@ image::screenshot_terminal.png[Deploy image]
 * Type `oc version`
 
 image::screenshot_whoami_version.png[Basic oc commands]
+
+NOTE: Also see the *Command-Line Walkthrough*: https://docs.openshift.com/container-platform/3.11/getting_started/developers_cli.html[https://docs.openshift.com/container-platform/3.11/getting_started/developers_cli.html]

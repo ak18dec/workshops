@@ -1,3 +1,83 @@
 [[webconsole]]
 
 == Web Console overview
+
+=== Sandbox project
+
+So you have already created your first project using the web console (`oconline-userX`). 
+
+Let's create another project where we can play in:
+
+*Create a new project:*
+
+** *Name:* sandbox-userX
+** *Display Name:* Sandbox
+
+You should now have 2 projects like this:
+
+image::screenshot_sandbox.png[Sandbox]
+
+Click the *Sandbox* project to go to the _Application Console_ for that project, you will see:
+
+* *Project selector* (top left): Here you can switch between your projects
+* *Menu* (left): This is all the sections available.
+* *Context area* (center): This will display content based on the menu item selected.
+* *User menu* (top right): Here you can get the cli login command.
+
+image::screenshot_application_console.png[Sandbox]
+
+=== Build options
+
+A build is the process of transforming input parameters into a resulting object. 
+Most often, the process is used to transform input parameters or source code into a runnable image. 
+A BuildConfig object is the definition of the entire build process.
+OpenShift Container Platform leverages Kubernetes by creating Docker-formatted containers from build images and pushing them to a container image registry.
+Build objects share common characteristics: inputs for a build, the need to complete a build process, 
+logging the build process, publishing resources from successful builds, 
+and publishing the final status of the build. Builds take advantage of resource restrictions, 
+specifying limitations on resources such as CPU usage, memory usage, and build or pod execution time.
+
+The OpenShift Container Platform build system provides extensible support for build strategies that are based on selectable types specified in the build API. 
+There are three primary build strategies available:
+
+* Docker build
+* Source-to-Image (S2I) build
+* Custom build
+
+By default, Docker builds and S2I builds are supported.
+The resulting object of a build depends on the builder used to create it. For Docker and S2I builds, the resulting objects are runnable images. 
+For Custom builds, the resulting objects are whatever the builder image author has specified.
+
+Additionally, the Pipeline build strategy can be used to implement sophisticated workflows:
+
+* continuous integration
+* continuous deployment
+
+NOTE: Also see the *Builds and Image Streams*: 
+https://docs.openshift.com/container-platform/3.11/architecture/core_concepts/builds_and_image_streams.html#builds[https://docs.openshift.com/container-platform/3.11/architecture/core_concepts/builds_and_image_streams.html#builds]
+
+We have already done a docker build with `oconline`.
+
+=== The catalog
+
+Click on `Browse Catalog`.
+
+TIP: OpenShift Container Platform provides out of the box a set of languages and databases for developers with corresponding 
+implementations and tutorials that allow you to kickstart your application development. 
+Language support centers around the Quickstart templates, which in turn leverage builder images.
+
+
+****
+IMPORTANT: *TODO*
+
+Explain how the catalog works in terms of templates, quickstarts, services, (optional) operators.
+
+Explain in detail - templates are object model definitions that require additional parameters.
+
+Explain in detail - quickstarts are object models definitions that contain predefined parameter values.
+
+Explain the oauth token (derived from the 'copy login command')
+****
+
+NOTE: Also see the *Web Console Walkthrough*: 
+https://docs.openshift.com/container-platform/3.11/getting_started/developers_console.html[https://docs.openshift.com/container-platform/3.11/getting_started/developers_console.html]
