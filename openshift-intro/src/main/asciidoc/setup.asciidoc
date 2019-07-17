@@ -4,7 +4,19 @@
 
 === Web console
 
-#TODO: Add login and url details here#
+You will be assigned an ID by the facilitator. At any time that the content refer to userX, (or _anything_X) you need to replace X with your ID.
+Your userId to log onto the web console will be _userX_ and the password will be _openshift_
+
+You can access the web console using your browser:
+
+{webConsoleUrl}[{webConsoleUrl}]
+
+*Example:* If your ID is `1`:
+
+* *Username:* user1
+* *Password:* openshift
+
+image::screenshot_login.png[Login]
 
 === CLI (oc)
 

@@ -5,9 +5,11 @@
 #TODO: add#
 
 <<<
-image::redhat.png[Red Hat,pdfwidth=50vw,align="center"]
+image::redhat.png[Red Hat,pdfwidth=40vw,align="center"]
 
-[cols=">,<", width="100%",frame=none,grid=rows]
+[cols="^", width="100%",frame=none,grid=none,stripes=none]
 |===
-|{author}|{email}
+|{author}
+|{facilitatorTitle} 
+|{email}
 |===

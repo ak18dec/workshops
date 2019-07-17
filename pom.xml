@@ -115,6 +115,8 @@
                                 <revdate>${revisiondate}</revdate>
                                 <facilitatorName>${facilitatorName}</facilitatorName>
                                 <facilitatorEmail>${facilitatorEmail}</facilitatorEmail>
+                                <facilitatorTitle>${facilitatorTitle}</facilitatorTitle>
+                                <webConsoleUrl>${webConsoleUrl}</webConsoleUrl>
                             </attributes>
                         </configuration>
                     </execution>

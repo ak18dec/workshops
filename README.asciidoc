@@ -6,9 +6,9 @@ To create the materials, run:
 
 [source,bash]
 ----
-mvn clean package -DfacilitatorName='Phillip Kruger' -DfacilitatorEmail='phillip.kruger@redhat.com'
+mvn clean package -DfacilitatorName='Phillip Kruger' -DfacilitatorEmail='phillip.kruger@redhat.com' -DfacilitatorTitle='Senior Solution Architect' -DwebConsoleUrl='https://master.jhb-94d8.openshiftworkshop.com'
 ----
 
-You should of course replace the facilitator name and email with your own.
+You should of course replace the facilitator name, title and email with your own. The webConsoleUrl should be the Openshift Url you are using.
 
 The documents will be available in the `targer/generated-docs` folder
