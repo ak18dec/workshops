@@ -16,6 +16,8 @@ You can access the web console using your browser:
 * *Username:* user1
 * *Password:* openshift
 
+Click btn:[Log In]
+
 image::screenshot_login.png[Login]
 
 === CLI (oc)
@@ -54,6 +56,8 @@ To install this image, do the following:
 ** *Name:* oconline-userX
 ** *Display Name:* OC Terminal
 
+Click btn:[Create]
+
 image::screenshot_oc_terminal.png[OC terminal]
 
 Select the newly created `OC Terminal` project and then select `Deploy Image`
@@ -65,7 +69,7 @@ Use the Image Name option and add the folling name:
 quay.io/ilawson/oconline:latest
 ----
 
-Click search and then leave the default values in the metadata form and click `Deploy`
+Click btn:[Search] and then leave the default values in the metadata form and click btn:[Deploy]
 
 image::screenshot_oc_docker_image.png[Deploy image]
 
@@ -80,7 +84,7 @@ TIP: It might be easier to keep this project with the terminal view open in a se
 
 If this document refer to _your terminal_ it will either be on your localhost or the docker install terminal depending your option above.
 
-* In the Web Console, select the top right pulldown, choose `Copy Login Command`
+* In the Web Console, select the top right pulldown, choose btn:[Copy Login Command]
 
 image::screenshot_copy_login.png[Deploy image]
 

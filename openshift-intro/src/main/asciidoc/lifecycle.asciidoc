@@ -2,4 +2,55 @@
 
 == Simple application lifecycle
 
-#TODO: add#
+****
+IMPORTANT: *TODO*
+
+Describe the scripts within an S2I build (compile, assemble, execute)
+
+****
+=== Deploying an application using S2I
+
+In the Catalog of your sandbox project:
+
+* Filter (top tab bar) *Languages*
+* Select *JavaScript*
+* Choose *Node.js*
+
+image::screenshot_catalog_filter_js.png[Node application]
+
+You will now go though a wizzard to gather all data needed for this S2I build config:
+
+****
+IMPORTANT: *TODO*
+
+Explain the nature of the wizards
+
+****
+
+* Click btn:[Next] on first page of Wizard.
+
+****
+IMPORTANT: *TODO*
+
+Explain the parameter fields as pertains to templates
+
+****
+
+* Select node image version *10*
+* Enter name as `nodetest`
+* Enter the following url as the github repo https://github.com/utherp0/ocpnode[https://github.com/utherp0/ocpnode]
+
+Click btn:[Create], then btn:[Close] to close the wizard
+
+image::screenshot_s2i_wizard.png[S2I Wizard]
+
+Now go back to the menu:Overview[] page.
+
+****
+IMPORTANT: *TODO*
+
+Explain the behaviour that is happening, the creation of the objects from the template, 
+the build-config being used by the build, the build delivering the image into the registry, 
+the deployment-config waiting on the image arrival, the default single Pod deployment, the creation of the route
+
+****

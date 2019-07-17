@@ -1,5 +1,0 @@
-[[basic_usage]]
-
-== Basic Usage
-
-#TODO: Deploying an image (also to be used as oc client)#

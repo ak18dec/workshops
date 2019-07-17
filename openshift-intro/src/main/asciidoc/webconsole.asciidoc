@@ -13,6 +13,8 @@ Let's create another project where we can play in:
 ** *Name:* sandbox-userX
 ** *Display Name:* Sandbox
 
+Click btn:[Create]
+
 You should now have 2 projects like this:
 
 image::screenshot_sandbox.png[Sandbox]
@@ -60,7 +62,7 @@ We have already done a docker build with `oconline`.
 
 === The catalog
 
-Click on `Browse Catalog`.
+Click btn:[Browse Catalog].
 
 TIP: OpenShift Container Platform provides out of the box a set of languages and databases for developers with corresponding 
 implementations and tutorials that allow you to kickstart your application development. 

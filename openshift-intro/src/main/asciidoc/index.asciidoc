@@ -4,6 +4,7 @@
 :orgname: Red Hat
 :sectanchors:
 :doctype: book
+:experimental: true
 :license: Apache License v2.0
 :source-highlighter: coderay
 :toc: left
@@ -21,7 +22,6 @@ endif::[]
 include::intro.asciidoc[]
 include::setup.asciidoc[]
 include::webconsole.asciidoc[]
-include::basic_usage.asciidoc[]
 include::lifecycle.asciidoc[]
 include::SDN.asciidoc[]
 include::RBAC.asciidoc[]

@@ -2,10 +2,18 @@
 
 == Introduction
 
+=== Attendee details
+
+
+
 This workshop is designed to give developers an introduction to Openshift
 
-#TODO: Add basic What is Openshift ?#
+****
+IMPORTANT: *TODO*
 
-#TODO: Add more info in the intended audience#
+Add basic _What is Openshift_ section ?
 
-#TODO: Add relevant links#
+Add more info in the intended audience.
+
+Add relevant links
+****
