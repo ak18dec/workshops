@@ -249,18 +249,47 @@ Explain the concepts of the readiness and health probes
 ****
 
 [[lifecycle-rolling-recreate]]
-==== Rolling and Recreate updates
+==== Application Deployment Strategies
 
-[UI] Applications/Deployment, click on configuration again 
-explain rolling and recreate - explain deployment triggers (image and config)
-[UI] Select Actions/Edit - change Rolling to Recreate - save
-[UI] Applications/Deployments - point out 'Deployment \#1 is active' - select 'Deploy'
-[UI] Back to Overview (quickly) - show the recreate behavior
-[UI] Applications/Deployments/nodetest - point out 'Deployment \#2 is active'
-[UI] Select Actions/Edit - change Recreate to Rolling - save
-[UI] Applications/Deployments/nodetest - Deploy
-[UI] Back to Overview (quickly) 
-show the rolling behavior - show the count of active Pods never drops beneath the required number of replicas
+From the menu: menu:Applications[Deployment > nodetest > Configuration]
+
+****
+IMPORTANT: *TODO*
+
+Explain rolling and recreate - explain deployment triggers (image and config)
+
+****
+
+In the top right corner, click the btn:[Actions > Edit] button.
+
+Change the btn:[Strategy Type] to `Recreate` and click btn:[Save]
+
+image::screenshot_deployment_recreate.png[Recreate]
+
+Now go to menu:Applications[Deployments > notetest]
+
+TIP: Note that Deployment \#1 is active.
+
+Click the btn:[Deploy] button (top right) and the quickly go back to the menu:Overview[] page.
+
+image::screenshot_deployment_recreate_pod_ring.png[Recreate in action]
+
+TIP: Note that all instances is being recreate and there is zero instances available above.
+
+Go back to menu:Applications[Deployments > notetest]
+
+TIP: Note that Deployment \#2 is active.
+
+Change back to Rolling Strategy: btn:[Actions > Edit] then change the
+btn:[Strategy Type] to `Rolling` and click btn:[Save]
+
+Now again click the btn:[Deploy] and quickly go back to the menu:Overview[] page.
+
+image::screenshot_deployment_rolling_pod_ring.png[Rolling in action]
+
+TIP: Note that the number of available pods never drops beneath the required number of replicas
+
+Read more about deployment strategies here: https://docs.openshift.com/container-platform/3.11/dev_guide/deployments/deployment_strategies.html[https://docs.openshift.com/container-platform/3.11/dev_guide/deployments/deployment_strategies.html]
 
 [[lifecycle-storage]]
 ==== Storage
