@@ -32,9 +32,9 @@ The CLI is ideal in situations where you are:
 
 The CLI is available using the oc command:
 
-[source,bash]
+[source,shell]
 ----
-oc <command>
+oc {command}
 ----
 
 You have two options to get a working CLI. Either install `oc` on your localhost or use a docker image in OpenShift:
@@ -65,7 +65,7 @@ Select the newly created `OC Terminal` project and then select `Deploy Image`
 
 Use the Image Name option and add the following name:
 
-[source,bash]
+[source,shell]
 ----
 quay.io/ilawson/oconline:latest
 ----

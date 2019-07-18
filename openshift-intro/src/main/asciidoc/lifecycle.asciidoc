@@ -161,18 +161,10 @@ Now let's go to the console (either using `localhost` or `oconline` as explained
 
 Make sure you are still logged in:
 
-[source,sh]
+[source,shell]
 ----
 oc whoami
 ----
-
-```sh
-oc whoami
-```
-
-```shell
-oc whoami
-```
 
 (if not, log in again as explained in the <<setup-login>> section)
 

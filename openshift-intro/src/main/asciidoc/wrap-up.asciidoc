@@ -10,6 +10,6 @@ image::redhat.png[Red Hat,pdfwidth=40vw,align="center"]
 [cols="^", width="100%",frame=none,grid=none,stripes=none]
 |===
 |{author}
-|{facilitatorTitle} 
+|{authorTitle} 
 |{email}
 |===

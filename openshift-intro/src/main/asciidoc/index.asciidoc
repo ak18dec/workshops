@@ -1,24 +1,4 @@
 = Openshift Introduction: Workshop for developers
-:author: {facilitatorName}
-:email: {facilitatorEmail}
-:orgname: Red Hat
-:sectanchors:
-:doctype: book
-:experimental: true
-:license: Apache License v2.0
-:source-highlighter: pygments
-:pygments-style: stata-dark
-:toc: left
-:toclevels: 4
-:sectnumlevels: 4
-:title-logo-image: images/redhat_openshift.png
-:icons: font
-:icon-set: pa
-ifdef::backend-pdf[]
-:pagenums:
-:compat-mode:
-:pdf-page-size: Letter
-endif::[]
 
 include::intro.asciidoc[]
 include::setup.asciidoc[]

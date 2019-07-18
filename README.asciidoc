@@ -15,9 +15,5 @@ The documents will be available in the `target/generated-docs` folder
 
 
 === Setup
-This project use Asciidoc with the pygments highlighter.
-See https://asciidoctor.org/docs/user-manual/#pygments
-
-```
-gem install pygments.rb
-```
+This project use Asciidoc with the rouge highlighter.
+See https://asciidoctor.org/docs/user-manual/#rouge
