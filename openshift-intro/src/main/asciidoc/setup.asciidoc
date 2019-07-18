@@ -1,7 +1,7 @@
 [[setup]]
-
 == Setup
 
+[[setup-webconsole]]
 === Web console
 
 You will be assigned an ID by the facilitator. At any time that the content refer to userX, (or _anything_X) you need to replace X with your ID.
@@ -20,6 +20,7 @@ Click btn:[Log In]
 
 image::screenshot_login.png[Login]
 
+[[setup-cli]]
 === CLI (oc)
 
 With the OpenShift Enterprise command line interface (CLI), you can create applications and manage OpenShift projects from a terminal. 
@@ -62,7 +63,7 @@ image::screenshot_oc_terminal.png[OC terminal]
 
 Select the newly created `OC Terminal` project and then select `Deploy Image`
 
-Use the Image Name option and add the folling name:
+Use the Image Name option and add the following name:
 
 [source,bash]
 ----
@@ -80,6 +81,7 @@ Once the image has deployed and a Pod will appear
 
 TIP: It might be easier to keep this project with the terminal view open in a separate browser tab, so that you  can switch back and forth to it easy
 
+[[setup-login]]
 === Using your terminal (Both options)
 
 If this document refer to _your terminal_ it will either be on your localhost or the docker install terminal depending your option above.

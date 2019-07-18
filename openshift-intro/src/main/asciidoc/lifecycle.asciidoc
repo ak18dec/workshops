@@ -1,5 +1,4 @@
 [[lifecycle]]
-
 == Simple application lifecycle
 
 ****
@@ -8,6 +7,8 @@ IMPORTANT: *TODO*
 Describe the scripts within an S2I build (compile, assemble, execute)
 
 ****
+
+[[lifecycle-s2i]]
 === Deploying an application using S2I
 
 In the Catalog of your sandbox project:
@@ -54,3 +55,124 @@ the build-config being used by the build, the build delivering the image into th
 the deployment-config waiting on the image arrival, the default single Pod deployment, the creation of the route
 
 ****
+[[lifecycle-running]]
+=== The running application
+
+When in the Overview page, you will see all running applications. Expand the `nodetest` application we just deployed.
+You will see an overview of the running application:
+
+* Information on the running container
+* Number of pods and the status (a.k.a kbd:[Pod ring]) of the pods
+* Networking information including internal port mapping and external routes
+* Build history and information
+
+image::screenshot_app_overview.png[Application Overview]
+
+To see the application in action, click on the link in the external route.
+This will open the basic node.js application:
+
+image::screenshot_node_app.png[Node.js Application]
+
+[[lifecycle-application-services]]
+==== Application Services
+
+Using the menu on the left go to the menu:Applications[Services] page.
+
+image::screenshot_app_services.png[Application Services]
+
+****
+IMPORTANT: *TODO*
+
+Explain the nature of the single service endpoint for the application - note the cluster IP address
+
+****
+
+NOTE: More info here: 
+https://docs.openshift.com/container-platform/3.11/architecture/core_concepts/pods_and_services.html#services[https://docs.openshift.com/container-platform/3.11/architecture/core_concepts/pods_and_services.html#services]
+
+Go back to the menu:Overview[] page.
+
+[[lifecycle-application-pods]]
+==== Application Pods
+
+Click on the kbd:[Pod ring], or alternatively use the menu menu:Applications[Pods > nodetest-****]
+
+image::screenshot_app_pod.png[Application Pod]
+
+TIP: See the differing IP address for the Pod compared to the cluster IP
+
+Go back to the menu:Overview[] page.
+
+[[lifecycle-application-scaling]]
+==== Application Scaling
+
+Let's pretend that this app is suddenly getting many requests from many users (so there is a load increase on the app).
+So we need to scale the application to 3 instances.
+
+Click the menu:Up arrow[] (^) until there are 3 replicas.
+
+image::screenshot_scaling_up.png[Application Scaling]
+
+****
+IMPORTANT: *TODO*
+
+Explain the blue, gray, dark blue, red colour schemes for the Pod behaviors
+
+****
+
+Click on the kbd:[Pod ring], or alternatively use the menu menu:Applications[Deployments > nodetest > #1 (latest)].
+
+Scroll down to where the Pods are listed:
+
+image::screenshot_app_pods_3.png[Pod listing]
+
+TIP: See the difference in age between the initial pod and the 2 recent scaled pods.
+
+Select on of the recent (younger) pods.
+
+TIP: Note the IP difference compared to the initial pod.
+
+****
+IMPORTANT: *TODO*
+
+Explain the load-balancing of Pod IP endpoints from the singular cluster IP and how that abstracts from the Route.
+
+****
+
+[[lifecycle-application-route]]
+==== Application Route
+
+Using the menu on the left go to the menu:Applications[Routes] page.
+
+image::screenshot_app_routes.png[Application Routes]
+
+TIP: Note the mapping of the fully qualified domain name to the cluster IP via the service name
+
+Select the nodetest link in the service column. 
+
+image::screenshot_route_service.png[Route service]
+
+TIP: Note that the route maps to the cluster IP
+
+[[lifecycle-application-cli]]
+==== Application from CLI
+
+Now let's go to the console (either using `localhost` or `oconline` as explained in the <<setup-cli>> section)
+
+Make sure you are still logged in:
+
+[source,sh]
+----
+oc whoami
+----
+
+```sh
+oc whoami
+```
+
+```shell
+oc whoami
+```
+
+(if not, log in again as explained in the <<setup-login>> section)
+

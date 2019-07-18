@@ -11,4 +11,13 @@ mvn clean package -DfacilitatorName='Phillip Kruger' -DfacilitatorEmail='phillip
 
 You should of course replace the facilitator name, title and email with your own. The webConsoleUrl should be the Openshift Url you are using.
 
-The documents will be available in the `targer/generated-docs` folder
+The documents will be available in the `target/generated-docs` folder
+
+
+=== Setup
+This project use Asciidoc with the pygments highlighter.
+See https://asciidoctor.org/docs/user-manual/#pygments
+
+```
+gem install pygments.rb
+```

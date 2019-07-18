@@ -6,7 +6,8 @@
 :doctype: book
 :experimental: true
 :license: Apache License v2.0
-:source-highlighter: coderay
+:source-highlighter: pygments
+:pygments-style: stata-dark
 :toc: left
 :toclevels: 4
 :sectnumlevels: 4
