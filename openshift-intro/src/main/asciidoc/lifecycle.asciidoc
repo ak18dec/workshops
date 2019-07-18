@@ -168,3 +168,86 @@ oc whoami
 
 (if not, log in again as explained in the <<setup-login>> section)
 
+Make sure we are using our sandbox project:
+
+[source,shell]
+----
+oc project sandbox-userX
+----
+
+This will print: 
+
+[source,shell,subs=attributes+]
+----
+Now using project "sandbox-userX" on server "{webConsoleUrl}:443".
+----
+
+You can find all `objects` that you can interact with in this namespace/project:
+
+[source,shell]
+----
+oc get all
+----
+
+Get all `pods`:
+
+[source,shell]
+----
+oc get pods -o wide
+----
+
+This will output something similar to this:
+
+[source,shell]
+----
+NAME               READY     STATUS      RESTARTS   AGE       IP          NODE                      NOMINATED NODE
+nodetest-1-2g2dz   1/1       Running     0          23h       10.1.2.67   node1.jhb-94d8.internal   <none>
+nodetest-1-54fw7   1/1       Running     0          3h        10.1.2.74   node1.jhb-94d8.internal   <none>
+nodetest-1-6xw6g   1/1       Running     0          3h        10.1.2.75   node1.jhb-94d8.internal   <none>
+nodetest-1-build   0/1       Completed   0          23h       10.1.2.65   node1.jhb-94d8.internal   <none>
+----
+
+TIP: Note the pod used to build the project is there, just inactive. +
+Also note the differing IPs for the individual Pods and the NODE information.
+
+In the Web Console, make sure you are on the btn:[Overview] page, then do the following in CLI while watching the page:
+
+[source,shell]
+----
+oc delete pod nodetest-****
+----
+(Replace ******** with once of the running pods)
+
+image::screenshot_deleting_pod.png[Deleting a pod]
+
+****
+IMPORTANT: *TODO*
+
+Explain the nature of Liveness (kill/restart) and Readiness (if not ready Pod IP is removed from the round-robin HAProxy)
+
+****
+
+[[lifecycle-health-checks]]
+==== Health Checks
+
+In the Web Console, go to menu:Applications[Deployments > nodetest > Configuration].
+
+Under Template, click `Add Health Checks`:
+
+image::screenshot_add_health.png[Adding Health Checks]
+
+TIP:
+Click on the `Learn More` link or 
+here: https://docs.openshift.com/container-platform/3.11/dev_guide/application_health.html[https://docs.openshift.com/container-platform/3.11/dev_guide/application_health.html]
+to read more about Health probes
+
+****
+IMPORTANT: *TODO*
+
+Explain the concepts of the readiness and health probes
+
+****
+
+[[lifecycle-rolling-recreate]]
+==== Rolling and Recreate updates
+
