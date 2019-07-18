@@ -251,3 +251,75 @@ Explain the concepts of the readiness and health probes
 [[lifecycle-rolling-recreate]]
 ==== Rolling and Recreate updates
 
+[UI] Applications/Deployment, click on configuration again 
+explain rolling and recreate - explain deployment triggers (image and config)
+[UI] Select Actions/Edit - change Rolling to Recreate - save
+[UI] Applications/Deployments - point out 'Deployment \#1 is active' - select 'Deploy'
+[UI] Back to Overview (quickly) - show the recreate behavior
+[UI] Applications/Deployments/nodetest - point out 'Deployment \#2 is active'
+[UI] Select Actions/Edit - change Recreate to Rolling - save
+[UI] Applications/Deployments/nodetest - Deploy
+[UI] Back to Overview (quickly) 
+show the rolling behavior - show the count of active Pods never drops beneath the required number of replicas
+
+[[lifecycle-storage]]
+==== Storage
+
+[UI] Storage/Create Storage, default storage class, name=’test’, access mode RWO, size=1GB, ‘Create’
+Explain the nature of PVs, how they are exported to all nodes, how the Container Runtime maps them into the Container at deployment as an additional file system
+[UI] Applications/Deployments/nodetest/Configuration, scroll down, click ‘Add Storage’
+Explain the nature of a PVC which locks the storage into the container
+[UI] Test PV should be selected, set the mount path to something unique to the attendee (i.e. /uth), click ‘Add’
+[UI] Back to Overview
+Note the redeployment, explain again the trigger of config change as well as image
+[UI] Click on Pod ring - scroll down, select the top Pod
+[UI] Select Terminal - type id, type df -h, type ps -ef
+Explain the ‘it thinks it is an OS’ concept, explain SELinux constraints around the ‘ps -ef’, note the addition of the new disk at the mount point provided at the PV creation
+[UI] In the Pod terminal, do ‘cd (themountpointforthePV)’ - do ‘touch test.txt’
+[UI] In the Pod terminal, do ‘ls -alZ’
+Explain the selinux constraints
+[oc] do ‘oc get pods -o wide’
+Find two Pods on physically separate Nodes - take note of the Pod names - explain the format, name-(x)-(randomchars)
+[UI] Go to Overview, click on the Pod, scroll down, choose the first named Pod, select Terminal
+[UI] cd /(mountpointforpv), vi test.txt, [i], type some chars, [ESC]:wq
+[UI] Go to Overview, click on the other Pod (insure it’s somewhere physically different), cd /(mountpointforpv), cat test.txt
+Explain the nature of the single file in persisted storage across multiple physical nodes
+
+[[lifecycle-config-maps]]
+==== Config Maps
+
+[UI] Resources/Config Maps - ‘Create Config Map’
+Discuss the nature of config maps as environment vars
+[UI] Name = ‘configmapenv’, Key = “CONFIGENV’, Value = “somevaluefortheenv”, ‘Create’
+[UI] Applications/Deployments/nodetest/Environment, Environment From - select configmapenv, click ‘Add ALL Values from Config Map’, ‘Save’
+[UI] Back to Overview, watch the deployment finish
+[UI] Click on the Pod ring, scroll down, choose a Pod, choose Terminal, type ‘env | grep CONFIGENV’
+Explain the relevance of the environment variable - not part of the deployment, applied at the container level
+[UI] Resources/Config Maps - ‘Create Config Map’
+Discuss the nature of config maps as an embedded overlay file (overwriting image contents)
+[UI] Name = ‘configmapfile’, Key = ‘myapp.conf’, Value=’hello!’, ‘Create’
+[UI] Applications/Deployments/nodetest/Configuration/Add Config Files, Source = configmapfile, Mount Path = ‘/config/app’, ‘Add’
+[UI] Back to Overview, watch deployment complete
+[UI] Click on Pod ring, scroll down, click on a Pod, Terminal, ‘cd /config/app’, ‘cat myapp.conf’
+Explain the nature of the config map being written as a file into the container file system - external to image
+Discuss the difference between configmaps and secrets
+
+[[lifecycle-secrets]]
+==== Secrets
+
+[UI] Resources/Secrets, ‘Create Secret’, type=’Generic Secret’, secret name=”nodetestsecret”, key=”mypassword”, clear value=”mydodgypassword”, ‘Create
+[UI] Click on the secret ‘nodetestsecret’, click on ‘Add to Application’, select ‘nodetest’, ‘Save’
+[UI] Back to Overview, watch the deployment complete, click on the Pod ring, scroll down, select a Pod
+[UI] Select ‘Terminal’, type ‘env | grep password’
+Explain the encrypted nature of the secret outside of the Pods
+[oc] oc describe secret nodetestsecret
+[oc] oc edit secret nodetestsecret
+Explain the encryption of the secret at the object level
+
+[[lifecycle-cleanup]]
+=== Clean up
+
+[oc] oc describe bc nodetest
+Point out the Label (app=nodetest), explain its relevance, explain the nature of the extensible object model
+[oc] oc delete all -l “app=nodetest”
+Explain the clean-up process

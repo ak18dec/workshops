@@ -2,4 +2,35 @@
 
 == Software Defined Networking
 
-#TODO: add#
+Explain the mechanisms of SDN, routes, singular service endpoints and actual service endpoints.
+[oc YOU] (with cluster admin) oc get clusternetwork
+Explain the differences - RHPDS instance will be subnet, which is the flat networking
+[oc] oc new-project sdntest(xx) --description=”SDN Test” --display-name=”SDN Test”
+[oc] get project 
+Ensure the attendees are in the sdntest(xx) project
+[oc] oc new-app registry.access.redhat.com/rhscl/nodejs-8-rhel7~https://github.com/utherp0/nodejs-ex --name="nodetest1"
+[oc] oc new-app registry.access.redhat.com/rhscl/nodejs-8-rhel7~https://github.com/utherp0/nodejs-ex --name="nodetest2"
+Explain the lack of a route 
+[UI] Click on the Pod for nodetest1 - show the IP address for the Pod
+[UI] Applications/Services - point out the Cluster IPs for nodetest1 and nodetest2
+[UI] Overview/Click on nodetest1 Pod, Terminal, curl http://localhost:8080
+Explain the resolution of localhost and the output returned
+[UI] curl http://nodetest1:8080
+Explain the resolution of the short-name for the service
+[UI] curl http://nodetest2:8080
+Explain the namespace resolution 
+[UI] getent hosts nodetest1
+Explain the full name resolution and the Cluster IP of the service
+[UI] curl http://nodetest1.sdntest(xx).svc.cluster.local:8080
+Talk about the conversion between the Cluster IP and the node endpoint
+{IF THE SDN IS SUBNET}
+[UI] try curl http://nodetest1.(the person next to you’s project).svc.cluster.local:8080
+Explain the resolution on a flat SDN. Explain the difference with multitenant. Explain network-policy above that
+[UI] Applications/Route
+[UI] Create Route, name canaryroute, * Service - nodetest1, select ‘Split Traffic Across Multiple Services’,  second * Service - nodetest2, Service Weights 80% nodetest1, 20% nodetest2, Create
+[UI] Click on canaryroute
+Explain the nature of the load-balancing
+[UI] Overview
+Explain the fact that both Apps now have the same route shown
+[UI] Click on nodetest1 Pod, Terminal, ‘getent hosts canaryroute-sdntest(xx).(domain)’
+Explain the IP returned is the IP of the OCP router, and why that is

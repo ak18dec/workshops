@@ -2,4 +2,34 @@
 
 == CICD Pipeline
 
-#TODO: add#
+For this exercise we will be using some downloadable information - explain the mechanics to the attendees as it is done
+Show the https://github.com/utherp0/workshop_material repo - explain the need for it (the groovy_pipeline.sh script will pre-install the application, pre-install the pipeline and kick-off the download of the Jenkins container
+Explain (as with the slides) the role that the ‘pipeline’ type of build plays - an extended mechanism to allow the whole CICD chain to be encompassed in a single, repeatable OCP build
+[oc] In the appropriate oc window create a directory for the git source - suggestion is mkdir ~/git
+[oc] ‘cd ~/git’
+[oc] ‘git clone https://github.com/utherp0/workshop_material’
+[oc] ‘cd workshop_material’
+[oc] ‘cd attendee’
+[oc] ‘ls’
+Explain what the script does. Explain the need for the pipeline_complex_bc.yaml file (and the alternative ways of injecting the pipeline script into the buildconfig)
+[oc] ‘cat groovy_pipeline.sh’
+Explain the need for changing the namespace - the fact namespaces are unique within a cluster.
+[oc] sed -i ‘s/PROJECT.NAME/{uniquenameforattendee}/g’ groovy_pipeline.sh
+[oc] ‘cat groovy_pipeline.sh’ to make sure the project name is correct
+[oc] sed -i ‘s/PROJECT.NAME/{uniquenameforattendee}/g’ pipeline_complex_bc.yaml
+[oc] oc whoami
+Make sure the attendee is logged on to the OCP cluster
+[oc] ./groovy_pipeline.sh
+Explain what the script is doing as it runs - the script installs the nodetest app then waits for it to appear, and then installs and starts the pipeline process
+Once the process has started, direct the attendees back to the UI
+[UI] Go to the project/Overview - Watch the Jenkins Ephemeral Pod startup - explain why it takes so long and what it is doing - the creation of a buildconfig that had a pipeline type automatically creates the Jenkins Pod if one doesn’t exist
+[UI] Once the Pod turns blue, click on the Route - THIS MAY TAKE A WHILE - walk the attendees through logging on to the Jenkins instance
+[UI] Builds/Pipelines - show the stages running, explain what each is doing, refer to the Groovy script
+[UI] When the pipeline completes (address issues if not - usually a naming convention of the project, if so correct the pipeline_complex_bc.yaml and show how to a: oc delete bc x, and b: oc create -f pipeline_complex_bc.yaml
+[UI] Overview - show the six pods running, point out the deployment number, Discuss the removal of the triggers on the deployment and why (with automation in place the creation of an image would force a deployment which would interfere with the pipeline, we disable the deployment on image and config triggers so the pipeline can control it all)
+Discuss complexities of pipelines, the addition of Jenkins commands into the Groovy etc
+[UI] Go back to the Jenkins Route - select Open Blue Ocean. Choose the Pipeline, click on the build, show the prettier Jenkins UI
+[UI] Builds/Pipelines - click on complexpipeline - Actions/Edit
+[UI] Replace the line ‘dc,scale(“--replicas=6”)’ with ‘dc.scale(“--replicas=4”)’
+[UI] Start Pipeline, then switch to Overview
+Explain what is happening, show the Pod count changing

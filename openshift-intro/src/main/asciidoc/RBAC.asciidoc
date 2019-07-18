@@ -2,4 +2,17 @@
 
 == User Role based access control
 
-#TODO: add#
+Explain the nature of the user model in OCP compared to the visibility of objects.
+Explain admin, edit, view and *no* access models
+[UI] Go to the Overview for the sandbox-xx project created by the user
+[UI] Choose Resources/Membership
+‘Users’ - this should be the user the attendee has logged on as. 
+‘Groups’ - explain the difference between the full name system:serviceaccount:sandbox:xxx (and the ‘all’ groups system:serviceaccounts:projectName)
+‘Service Accounts’ - explain the concept of a ‘virtual’ user within the namespace
+[UI] Adding a user to your project - attendees pick the person next to them, go to Resources/Membership. Choose ‘Users’. Click ‘Edit Membership’. Add the user in the textbox to the left. Pull down the ‘Select a role’ and choose ‘admin’. Hit ‘Add’.
+[UI] Attendees who have been given access to another project can now see that project in the right-hand panel at the Home page (click on the OPENSHIFT CONTAINER PLATFORM logo.
+[UI] Attendees try starting a build in the gifted project.
+Now talk about removing a user
+[oc] for the people who gave the account do ‘oc project sandbox-xx’ (their project)
+[oc] for the people who gave the account do ‘oc adm policy remove-role-from-user admin (user)’
+For the attendees that were given access check the project is removed from the right hand panel in the home page. 

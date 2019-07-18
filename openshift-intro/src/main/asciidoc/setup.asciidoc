@@ -94,8 +94,13 @@ image::screenshot_copy_login.png[Deploy image]
 
 image::screenshot_terminal.png[Deploy image]
 
-* Type `oc whoami`
-* Type `oc version`
+Make sure `oc` is working, type:
+
+[source,shell]
+----
+oc whoami
+oc version
+----
 
 image::screenshot_whoami_version.png[Basic oc commands]
 
