@@ -69,6 +69,7 @@
             <organization>Red Hat</organization>
         </developer>
     </developers>
+    
     <modules>
         <module>openshift-intro</module>
     </modules>

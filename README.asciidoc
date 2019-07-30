@@ -2,6 +2,82 @@
 
 This repo contains workshop materials for attendees for various workshops.
 
+=== Order the environment on RHPDS
+
+Go to the catalog explorer on the Red Hat Product Demo System:
+
+https://rhpds.redhat.com/catalog/explorer[https://rhpds.redhat.com/catalog/explorer]
+
+Select menu:Workshops[OpenShift Workshops]
+
+NOTE: Take note of the number of users (change to be the number of attendees)
+
+image::screenshot_rhpds.png[Order the Workshops]
+
+Click btn:[Order].
+
+Now wait until you get an email with the details of the environment.
+
+=== Information on the environment
+
+==== Cluster Specification
+
+* *Master and Infra:* 1 master (m4.xlarge), 1 infra nodes (m4.4xlarge)
+* *Nodes:* Node number is set by the number of users provided, after dividing by 5
+* *Cluster Features:* 
+** HTPasswd Authentication
+** Template Service Broker
+** Automation Service Broker
+** Operator Framework
+** Lets Encrypt certificates
+** Logging enabled.
+* *Storage:* NFS with 500 persistent volumes
+* *Participant Users:* user1..userX (where X is the number of users you specified in <<order>> section)
+* *Participant Password:* openshift
+* *Cluster-admin username:* opentlc-mgr 
+* *Cluster-admin password:* r3dh4t1!
+
+==== Web Console Access
+Replace YOURCITY with the City or Customer name you have provided in RHPDS when ordering the workshop in the <<order>> section.
+Note that a random GUID is affixed to the YOURCITY value. 
+(you will also get this information in the email once the environment is ready)
+
+* *Master / Web Console:* https://master.YOURCITY.openshiftworkshop.com
+* *Registry Console:* https://registry-console-default.apps.YOURCITY.openshiftworkshop.com
+* *Bastion Server:* bastion.YOURCITY.openshiftworkshop.com
+
+==== SSH SSH Access
+You have full admin and SSH access to this cluster and can modify the cluster as your workshop requires it. 
+
+You can download the SSH key for the workshops from the below link. In order to access this link you will need to login the URL with your OPENTLC credentials: 
+
+https://www.opentlc.com/keys/ocp-workshop.pem[https://www.opentlc.com/keys/ocp-workshop.pem]
+
+From your local host, SSH as ec2-user into the bastion server and become root:
+
+[source,shell]
+----
+ssh -i /path/ocp-workshop.pem \
+       ec2-user@bastion.YOURCITY-NNNN.openshiftworkshop.com
+sudo -i
+----
+
+List OpenShift nodes:
+[source,shell]
+----
+oc get nodes
+----
+
+SSH into master server from the bastion server and become root on master:
+
+[source,shell]
+----
+ssh master1.YOURCITY-NNNN.internal 
+sudo -i
+----
+
+=== Create the attendee materials
+
 To create the materials, run:
 
 [source,bash]
@@ -9,10 +85,9 @@ To create the materials, run:
 mvn clean package -DfacilitatorName='Phillip Kruger' -DfacilitatorEmail='phillip.kruger@redhat.com' -DfacilitatorTitle='Senior Solution Architect' -DwebConsoleUrl='https://master.jhb-94d8.openshiftworkshop.com'
 ----
 
-You should of course replace the facilitator name, title and email with your own. The webConsoleUrl should be the Openshift Url you are using.
+You should replace the facilitator name, title and email with your own. The webConsoleUrl should be the Openshift Url you are using.
 
 The documents will be available in the `target/generated-docs` folder
-
 
 === Setup
 This project use Asciidoc with the `rouge` highlighter.
