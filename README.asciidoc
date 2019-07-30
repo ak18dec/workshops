@@ -2,22 +2,24 @@
 
 This repo contains workshop materials for attendees for various workshops.
 
+[[order]]
 === Order the environment on RHPDS
 
 Go to the catalog explorer on the Red Hat Product Demo System:
 
 https://rhpds.redhat.com/catalog/explorer[https://rhpds.redhat.com/catalog/explorer]
 
-Select menu:Workshops[OpenShift Workshops]
+Select Workshops -> OpenShift Workshops
 
 NOTE: Take note of the number of users (change to be the number of attendees)
 
 image::screenshot_rhpds.png[Order the Workshops]
 
-Click btn:[Order].
+Click [Order]
 
 Now wait until you get an email with the details of the environment.
 
+[[info]]
 === Information on the environment
 
 ==== Cluster Specification
