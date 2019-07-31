@@ -582,19 +582,109 @@ Discuss the difference between configmaps and secrets
 [[lifecycle-secrets]]
 ==== Secrets
 
-[UI] Resources/Secrets, ‘Create Secret’, type=’Generic Secret’, secret name=”nodetestsecret”, key=”mypassword”, clear value=”mydodgypassword”, ‘Create
-[UI] Click on the secret ‘nodetestsecret’, click on ‘Add to Application’, select ‘nodetest’, ‘Save’
-[UI] Back to Overview, watch the deployment complete, click on the Pod ring, scroll down, select a Pod
-[UI] Select ‘Terminal’, type ‘env | grep password’
+Navigate to menu:Resources[Secrets] and then click btn:[Create Secrets].
+Enter the following:
+
+* *Secret Type:* Generic Secret
+* *Secret Name:* nodetestsecret
+* *Key:* mypassword
+* *Value:* mydodgypassword
+
+Click btn:[Create]
+
+image::screenshot_secret.png[Secret]
+
+Now select the newly created secret `nodetestsecret` and then click btn:[Add to Application].
+
+Select the `nodetest` application and click btn:[Save].
+
+Now go back to the menu:Overview[] page, and watch the deployment finish.
+
+Click on the kbd:[Pod ring] and select the first (top) pod in the `Pods` section.
+Select the `Terminal` tab and then type the following:
+
+[source,shell]
+----
+env | grep password
+----
+
+****
+IMPORTANT: *TODO*
+
 Explain the encrypted nature of the secret outside of the Pods
-[oc] oc describe secret nodetestsecret
-[oc] oc edit secret nodetestsecret
+
+****
+
+Now, in the CLI (NOT the terminal we have been using just now), do the following:
+
+[source,shell]
+----
+oc describe secret nodetestsecret
+----
+
+This will show the secret, example:
+
+[source,shell]
+----
+Name:         nodetestsecret
+Namespace:    sandbox-user1
+Labels:       <none>
+Annotations:  <none>
+
+Type:  Opaque
+
+Data
+====
+mypassword:  15 bytes
+----
+
+Now look at the secret in the object:
+
+[source,shell]
+----
+oc edit secret nodetestsecret
+----
+
+Here you can see the secret is encrypted:
+
+[source,yaml]
+----
+apiVersion: v1
+data:
+  mypassword: bXlkb2RneXBhc3N3b3Jk
+kind: Secret
+metadata:
+  creationTimestamp: "2019-07-31T05:09:01Z"
+  name: nodetestsecret
+  namespace: sandbox-user1
+  resourceVersion: "167161"
+  selfLink: /api/v1/namespaces/sandbox-user1/secrets/nodetestsecret
+  uid: 4f06e44d-b351-11e9-b116-16c647cb1fdc
+type: Opaque
+----
+
+****
+IMPORTANT: *TODO*
+
 Explain the encryption of the secret at the object level
+
+****
 
 [[lifecycle-cleanup]]
 === Clean up
 
-[oc] oc describe bc nodetest
+Now let's clean up everything we did in the <<lifecycle>> section:
+
+[source,shell]
+----
+oc describe bc nodetest
+oc delete all -l "app=nodetest"
+----
+
+****
+IMPORTANT: *TODO*
+
 Point out the Label (app=nodetest), explain its relevance, explain the nature of the extensible object model
-[oc] oc delete all -l “app=nodetest”
 Explain the clean-up process
+
+****
