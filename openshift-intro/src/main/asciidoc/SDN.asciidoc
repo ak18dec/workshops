@@ -206,7 +206,7 @@ Click on the kbd:[Pod ring] of nodetest1, select the `Terminal` tab and then typ
 
 [source,shell]
 ----
-getent hosts canaryroute-sdntest(xx).(domain)
+getent hosts canaryroute-sdntest-userX.(domain)
 ----
 
 This will return the IP of the OCP router, example:
