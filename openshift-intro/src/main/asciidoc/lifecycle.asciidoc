@@ -19,7 +19,7 @@ In the Catalog of your sandbox project:
 
 image::screenshot_catalog_filter_js.png[Node application]
 
-You will now go though a wizzard to gather all data needed for this S2I build config:
+You will now go though a wizard to gather all data needed for this S2I build config:
 
 ****
 IMPORTANT: *TODO*
@@ -294,44 +294,290 @@ Read more about deployment strategies here: https://docs.openshift.com/container
 [[lifecycle-storage]]
 ==== Storage
 
-[UI] Storage/Create Storage, default storage class, name=’test’, access mode RWO, size=1GB, ‘Create’
+Go to menu:Storage[] page and select btn:[Create Storage]:
+
+* *Name:* test
+* *Access Mode:* RWO
+* *Size:* 1 GiB 
+
+Click btn:[Create]
+
+****
+IMPORTANT: *TODO*
+
 Explain the nature of PVs, how they are exported to all nodes, how the Container Runtime maps them into the Container at deployment as an additional file system
-[UI] Applications/Deployments/nodetest/Configuration, scroll down, click ‘Add Storage’
+
+****
+
+Now we will assign this storage to our application. Go to menu:Applications[Deployments] and select `nodetest` and select the `Configuration` tab. 
+Under the Volumes section, click `Add Storage`
+
+****
+IMPORTANT: *TODO*
+
 Explain the nature of a PVC which locks the storage into the container
-[UI] Test PV should be selected, set the mount path to something unique to the attendee (i.e. /uth), click ‘Add’
-[UI] Back to Overview
-Note the redeployment, explain again the trigger of config change as well as image
-[UI] Click on Pod ring - scroll down, select the top Pod
-[UI] Select Terminal - type id, type df -h, type ps -ef
-Explain the ‘it thinks it is an OS’ concept, explain SELinux constraints around the ‘ps -ef’, note the addition of the new disk at the mount point provided at the PV creation
-[UI] In the Pod terminal, do ‘cd (themountpointforthePV)’ - do ‘touch test.txt’
-[UI] In the Pod terminal, do ‘ls -alZ’
+
+****
+
+Select the `test` storage option (This is the one we just created)
+
+In the *Mount Path* make sure that the path is unique to you, so make it `/usrX` (Where X is your assigned ID).
+Click btn:[Add]
+
+image::screenshot_assign_vol.png[Assign Volumes]
+
+Go back to the menu:Overview[] page.
+
+TIP: Note the redeployment, this is because above is a config change and a new image needs to be build to make this mount point available
+
+Click on the kbd:[Pod ring] and select the first (top) pod in the `Pods` section.
+Select the `Terminal` tab and then type the following:
+
+[source,shell]
+----
+id
+----
+
+This will print the unique id for this pod, example:
+
+[source,shell]
+----
+uid=1000360000 gid=0(root) groups=0(root),1000360000
+----
+
+Now type the following in the terminal:
+
+[source,shell]
+----
+df -h
+----
+
+This will report information on the disk space for this pod, example:
+
+[source,shell]
+----
+Filesystem                                                 Size  Used Avail Use% Mounted on
+overlay                                                     50G  7.3G   43G  15% /
+tmpfs                                                       32G     0   32G   0% /dev
+tmpfs                                                       32G     0   32G   0% /sys/fs/cgroup
+support1.fourways-3631.internal:/srv/nfs/user-vols/vol411  197G  498M  187G   1% /usr1
+/dev/xvda2                                                  50G  7.3G   43G  15% /etc/hosts
+shm                                                         64M     0   64M   0% /dev/shm
+tmpfs                                                       32G   16K   32G   1% /run/secrets/kubernetes.io/serviceaccount
+tmpfs                                                       32G     0   32G   0% /proc/acpi
+tmpfs                                                       32G     0   32G   0% /proc/scsi
+tmpfs                                                       32G     0   32G   0% /sys/firmware
+----
+
+You will see the volume create earlier mounted under `/usrX`.
+
+Type the following:
+
+[source,shell]
+----
+ps -ef
+----
+
+****
+IMPORTANT: *TODO*
+
+Explain the ‘it thinks it is an OS’ concept, explain SELinux constraints around the ‘ps -ef’, 
+note the addition of the new disk at the mount point provided at the PV creation
+
+****
+
+Now let's go to the volume mount point and create a file in the root:
+
+[source,shell]
+----
+cd /usrX
+touch test.txt
+----
+
+List the contents of the folder:
+
+[source,shell]
+----
+ls -alZ
+----
+
+You will see a list of directories and files, example:
+
+[source,shell]
+----
+drwxrwxrwx. root       root  system_u:object_r:nfs_t:s0                     .
+drwxr-xr-x. root       root  system_u:object_r:container_file_t:s0:c9,c19   ..
+-rw-r--r--. 1000360000 65534 system_u:object_r:nfs_t:s0                     test1.txt
+----
+
+****
+IMPORTANT: *TODO*
+
 Explain the selinux constraints
-[oc] do ‘oc get pods -o wide’
+
+****
+
+Now, in the CLI (NOT the terminal we have been using just now), do the following:
+
+[source,shell]
+----
+oc get pods -o wide
+----
+
+You will see a list of all pods, example:
+
+[source,shell]
+----
+NAME               READY   STATUS      RESTARTS   AGE   IP          NODE                           NOMINATED NODE
+nodetest-1-build   0/1     Completed   0          1h    10.1.4.8    node1.jhb-94d8.internal   <none>
+nodetest-2-5lcdq   1/1     Running     0          15m   10.1.4.12   node1.jhb-94d8.internal   <none>
+nodetest-2-7dnjv   1/1     Running     0          12m   10.1.4.14   node1.jhb-94d8.internal   <none>
+nodetest-2-nfnlf   1/1     Running     0          12m   10.1.4.13   node1.jhb-94d8.internal   <none>
+----
+
+****
+IMPORTANT: *TODO*
+
 Find two Pods on physically separate Nodes - take note of the Pod names - explain the format, name-(x)-(randomchars)
-[UI] Go to Overview, click on the Pod, scroll down, choose the first named Pod, select Terminal
-[UI] cd /(mountpointforpv), vi test.txt, [i], type some chars, [ESC]:wq
-[UI] Go to Overview, click on the other Pod (insure it’s somewhere physically different), cd /(mountpointforpv), cat test.txt
+
+****
+Go back to the menu:Overview[] page.
+
+Click on the kbd:[Pod ring] and select the first (top) pod in the `Pods` section.
+Select the `Terminal` tab and then type the following:
+
+[source,shell]
+----
+cd /usrX
+vi test.txt
+----
+
+Once in `vi`, press *i* to enter *insert* mode.
+
+Now type something, example: `Hello World`.
+
+Then press *Esc* (to exit the insert mode) and then *:wq* to write and quit vi.
+You can do a `cat` to make sure the contents is saved in the file:
+
+[source,shell]
+----
+cat test.txt 
+Hello world
+----
+
+Now go back to the menu:Overview[] page.
+
+Click on the kbd:[Pod ring] and select any pod except the first (top) one in the `Pods` section.
+Select the `Terminal` tab and then type the following:
+
+[source,shell]
+----
+cd /usrX
+cat test.txt
+Hello world
+----
+
+As you can see the file is available on all pods.
+
+****
+IMPORTANT: *TODO*
+
 Explain the nature of the single file in persisted storage across multiple physical nodes
+
+****
 
 [[lifecycle-config-maps]]
 ==== Config Maps
 
-[UI] Resources/Config Maps - ‘Create Config Map’
+Navigate to menu:Resources[Config Maps] and then click btn:[Create Config Map]
+
+****
+IMPORTANT: *TODO*
+
 Discuss the nature of config maps as environment vars
-[UI] Name = ‘configmapenv’, Key = “CONFIGENV’, Value = “somevaluefortheenv”, ‘Create’
-[UI] Applications/Deployments/nodetest/Environment, Environment From - select configmapenv, click ‘Add ALL Values from Config Map’, ‘Save’
-[UI] Back to Overview, watch the deployment finish
-[UI] Click on the Pod ring, scroll down, choose a Pod, choose Terminal, type ‘env | grep CONFIGENV’
+
+****
+
+Enter the following in the fields:
+* *Name:* configmapenv
+* *Key:* CONFIGENV
+* *Value:* somevaluefortheenv
+
+Then click btn:[Create]
+
+image::screenshot_config_map.png[Config Map]
+
+Navigate to menu:Applications[Deployments] select `nodetest` and then the `Environment` Tab.
+
+In the `Environment From` section, select the `configmapenv` we just created.
+
+Click the `Add ALL Values from Config Map or Secret` link and then btn:[Save].
+
+Now go back to the menu:Overview[] page, and watch the deployment finish.
+
+Click on the kbd:[Pod ring] and select the first (top) pod in the `Pods` section.
+Select the `Terminal` tab and then type the following:
+
+[source,shell]
+----
+env | grep CONFIGENV
+----
+
+You will see the key/value we just created.
+
+****
+IMPORTANT: *TODO*
+
 Explain the relevance of the environment variable - not part of the deployment, applied at the container level
-[UI] Resources/Config Maps - ‘Create Config Map’
+
+****
+
+Now let's create another config map.
+Navigate back to menu:Resources[Config Maps] and then click btn:[Create Config Map]
+
+****
+IMPORTANT: *TODO*
+
 Discuss the nature of config maps as an embedded overlay file (overwriting image contents)
-[UI] Name = ‘configmapfile’, Key = ‘myapp.conf’, Value=’hello!’, ‘Create’
-[UI] Applications/Deployments/nodetest/Configuration/Add Config Files, Source = configmapfile, Mount Path = ‘/config/app’, ‘Add’
-[UI] Back to Overview, watch deployment complete
-[UI] Click on Pod ring, scroll down, click on a Pod, Terminal, ‘cd /config/app’, ‘cat myapp.conf’
+
+****
+
+Enter the following in the fields:
+* *Name:* configmapfile
+* *Key:* myapp.conf
+* *Value:* hello!
+
+Then click btn:[Create]
+
+Navigate to menu:Applications[Deployments] select `nodetest` and then the `Configuration` Tab.
+
+In the `Volumes` section, select `Add Config Files`:
+
+* *Source:* configmapfile
+* *Mount Path:* /config/app
+
+Click btn:[Add]
+
+Now go back to the menu:Overview[] page, and watch the deployment finish.
+
+Click on the kbd:[Pod ring] and select the first (top) pod in the `Pods` section.
+Select the `Terminal` tab and then type the following:
+
+[source,shell]
+----
+cd /config/app
+cat myapp.conf
+----
+
+You will see the value we just created.
+
+****
+IMPORTANT: *TODO*
+
 Explain the nature of the config map being written as a file into the container file system - external to image
 Discuss the difference between configmaps and secrets
+
+****
 
 [[lifecycle-secrets]]
 ==== Secrets

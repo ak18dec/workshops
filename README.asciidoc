@@ -91,6 +91,12 @@ You should replace the facilitator name, title and email with your own. The webC
 
 The documents will be available in the `target/generated-docs` folder
 
+==== PDF
+In the target folder will be a PDF that can be printed or shared with the attendees.
+
+==== HTML
+Also in the target folder is static HTML files that can be hosted on a HTTP server to be accessed by the attendees.
+
 === Setup
 This project use Asciidoc with the `rouge` highlighter.
 See https://asciidoctor.org/docs/user-manual/#rouge[https://asciidoctor.org/docs/user-manual/#rouge]
