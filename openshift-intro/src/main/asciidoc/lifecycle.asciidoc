@@ -55,6 +55,7 @@ the build-config being used by the build, the build delivering the image into th
 the deployment-config waiting on the image arrival, the default single Pod deployment, the creation of the route
 
 ****
+
 [[lifecycle-running]]
 === The running application
 

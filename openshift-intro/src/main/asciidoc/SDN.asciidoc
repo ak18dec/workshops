@@ -2,35 +2,223 @@
 
 == Software Defined Networking
 
+****
+IMPORTANT: *TODO*
+
 Explain the mechanisms of SDN, routes, singular service endpoints and actual service endpoints.
-[oc YOU] (with cluster admin) oc get clusternetwork
+
+****
+
+If you have admin rights (you don't), you can get the cluster network:
+
+[source,shell]
+----
+oc get clusternetwork
+NAME      CLUSTER NETWORKS   SERVICE NETWORK   PLUGIN NAME
+default   10.1.0.0/16:9      172.30.0.0/16     redhat/openshift-ovs-subnet
+----
+
+****
+IMPORTANT: *TODO*
+
 Explain the differences - RHPDS instance will be subnet, which is the flat networking
-[oc] oc new-project sdntest(xx) --description=”SDN Test” --display-name=”SDN Test”
-[oc] get project 
-Ensure the attendees are in the sdntest(xx) project
-[oc] oc new-app registry.access.redhat.com/rhscl/nodejs-8-rhel7~https://github.com/utherp0/nodejs-ex --name="nodetest1"
-[oc] oc new-app registry.access.redhat.com/rhscl/nodejs-8-rhel7~https://github.com/utherp0/nodejs-ex --name="nodetest2"
+
+****
+
+Let's create a new test project using the CLI:
+
+[source,shell]
+----
+oc new-project sdntest-userX --description="SDN Test" --display-name="SDN Test"
+----
+
+You can make sure you are using the newly created project:
+
+[source,shell]
+----
+oc get project sdntest-user1
+----
+
+Now let's ad Applications to our new project:
+
+[source,shell]
+----
+oc new-app registry.access.redhat.com/rhscl/nodejs-8-rhel7~https://github.com/utherp0/nodejs-ex --name="nodetest1"
+oc new-app registry.access.redhat.com/rhscl/nodejs-8-rhel7~https://github.com/utherp0/nodejs-ex --name="nodetest2"
+----
+
+****
+IMPORTANT: *TODO*
+
 Explain the lack of a route 
-[UI] Click on the Pod for nodetest1 - show the IP address for the Pod
-[UI] Applications/Services - point out the Cluster IPs for nodetest1 and nodetest2
-[UI] Overview/Click on nodetest1 Pod, Terminal, curl http://localhost:8080
+
+****
+
+Back in the Web Console. Make sure that you select the `SDN Test` Project in the project dropdown.
+
+In the menu:Overview[] page you will see the two nodetest application we just created. 
+
+Click on the kbd:[Pod ring] for nodetest1, under the `Status` section you will see the IP address for this Pod.
+
+Navigate to menu:Applications[Services]. Note the Cluster IP's for nodetest1 and nodetest2.
+
+Now go back to menu:Overview[] and select the kbd:[Pod ring] for nodetest1.
+
+Select the `Terminal` tab and type the following:
+
+[source,shell]
+----
+curl http://localhost:8080
+----
+
+This will return the basic HTML for the node.js application, example:
+
+[source,html]
+----
+<html>
+<head>
+  <title>Test Page for nodejs-ex app</title>
+</head>
+
+<body>
+<b>Test page for nodejs-ex</b> - served from res.render.
+
+This is a simple webpage rendered from the node.js application at the root endpoint.<p/>
+
+</body>
+</html>
+----
+
+****
+IMPORTANT: *TODO*
+
 Explain the resolution of localhost and the output returned
-[UI] curl http://nodetest1:8080
+
+****
+
+Now do the same, but using the pod name:
+
+[source,shell]
+----
+curl http://nodetest1:8080
+----
+
+You will see the same response.
+
+****
+IMPORTANT: *TODO*
+
 Explain the resolution of the short-name for the service
-[UI] curl http://nodetest2:8080
+
+****
+
+Let's see if we can see the other Pod from here:
+
+[source,shell]
+----
+curl http://nodetest2:8080
+----
+
+As you can see the name is resolved to the correct IP for a Pod.
+
+****
+IMPORTANT: *TODO*
+
 Explain the namespace resolution 
-[UI] getent hosts nodetest1
+
+****
+
+Let's now do a full name resolution:
+
+[source,shell]
+----
+getent hosts nodetest1
+----
+
+You will see the Cluster IP and the full URL for nodetest1, example:
+
+[source,shell]
+----
+172.30.179.70   nodetest1.sdntest-user1.svc.cluster.local
+----
+
+****
+IMPORTANT: *TODO*
+
 Explain the full name resolution and the Cluster IP of the service
-[UI] curl http://nodetest1.sdntest(xx).svc.cluster.local:8080
+
+****
+
+Now curl the full URL:
+
+[source,shell]
+----
+curl http://nodetest1.sdntest-userX.svc.cluster.local:8080
+----
+
+You will again get the test page as a response.
+
+****
+IMPORTANT: *TODO*
+
 Talk about the conversion between the Cluster IP and the node endpoint
-{IF THE SDN IS SUBNET}
-[UI] try curl http://nodetest1.(the person next to you’s project).svc.cluster.local:8080
-Explain the resolution on a flat SDN. Explain the difference with multitenant. Explain network-policy above that
-[UI] Applications/Route
-[UI] Create Route, name canaryroute, * Service - nodetest1, select ‘Split Traffic Across Multiple Services’,  second * Service - nodetest2, Service Weights 80% nodetest1, 20% nodetest2, Create
-[UI] Click on canaryroute
+
+****
+
+Let's try the person next to you:
+
+[source,shell]
+----
+curl http://nodetest1.sdntest-userX+1.svc.cluster.local:8080
+----
+
+****
+IMPORTANT: *TODO*
+
+Explain the resolution on a flat SDN. Explain the difference with multi-tenant. Explain network-policy above that
+
+****
+
+Now let's create a route, navigate to menu:Applications[Route] and click btn:[Create Route]:
+
+* *Name:* canaryroute
+* *Service:* nodetest1
+* *Alternate Services:* select 'Split Traffic Across Multiple Services'
+** *Service:* nodetest2
+** *Service Weights:* 80% nodetest1, 20% nodetest2
+
+Click btn:[Create]
+
+image::screenshot_route.png[Create Route]
+
+Now select the newly created `canaryroute`.
+
+****
+IMPORTANT: *TODO*
+
 Explain the nature of the load-balancing
-[UI] Overview
-Explain the fact that both Apps now have the same route shown
-[UI] Click on nodetest1 Pod, Terminal, ‘getent hosts canaryroute-sdntest(xx).(domain)’
+
+****
+
+If you go back to the menu:Overview[] page, note that both applications has got the same external route.
+
+Click on the kbd:[Pod ring] of nodetest1, select the `Terminal` tab and then type the following:
+
+[source,shell]
+----
+getent hosts canaryroute-sdntest(xx).(domain)
+----
+
+This will return the IP of the OCP router, example:
+
+[source,shell]
+----
+3.219.175.39    canaryroute-sdntest-user1.apps.jhb-94d8.openshiftworkshop.com
+----
+
+****
+IMPORTANT: *TODO*
+
 Explain the IP returned is the IP of the OCP router, and why that is
+
+****
