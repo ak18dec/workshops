@@ -2,10 +2,9 @@
 
 == Wrap-up
 
-Allow for a Q/A session on the previous chapters. Use the system to demonstrate behaviour asked for by attendees
-OPTIONAL - show the RHOAR launchpad and walk them through an example
-OPTIONAL - talk about futures/Operators/OCP4 - demo operators on 3.11 if possible
-OPTIONAL - walk the attendees, *if* they are .NET devs, through the https://github.com/utherp0/meowworldforum app (currently .NET Core 1.0 but will be updated soon)
+* Q&A
+* Also see https://launch.openshift.io/
+* Operators on OCP4
 
 <<<
 image::redhat.png[Red Hat,pdfwidth=40vw,align="center"]
@@ -20,5 +19,5 @@ image::redhat.png[Red Hat,pdfwidth=40vw,align="center"]
 ---
 [cols="^", width="100%",frame=none,grid=none,stripes=none]
 |===
-Original workshop done by Ian 'Uther' Lawson
+Original workshop content done by Ian 'Uther' Lawson
 |===
