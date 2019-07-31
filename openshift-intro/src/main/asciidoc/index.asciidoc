@@ -1,4 +1,5 @@
 = Openshift Introduction: Workshop for developers
+{author} <{email}>
 
 include::intro.asciidoc[]
 include::setup.asciidoc[]
