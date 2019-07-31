@@ -4,14 +4,37 @@
 
 === Attendee details
 
-This workshop is designed to give developers an introduction to Openshift
+[cols="<.>a,<.>a"]
+|===
+|Name:
+|
 
-****
-IMPORTANT: *TODO*
 
-Add basic _What is Openshift_ section ?
+|User ID (userX):
+|
 
-Add more info in the intended audience.
 
-Add relevant links
-****
+|===
+
+This workshop is designed to give developers an introduction to Openshift.
+
+This workshop aims to introduce the basics of devex within OCP without diving too deep into the development languages
+ - by design this intend to focus on the advantages and efficiencies of using Openshift as a complete dev platform 
+ as opposed to in-depth technical examples of languages
+
+==== What is Openshift
+
+Red Hat® OpenShift® is a hybrid cloud, enterprise Kubernetes application platform.
+
+OpenShift is a family of containerization software developed by Red Hat. 
+Its flagship product is the OpenShift Container Platform—an on-premises platform as a service built around Docker containers orchestrated and 
+managed by Kubernetes on a foundation of Red Hat Enterprise Linux. 
+The family's other products provide this platform through different environments: 
+OKD serves as the community-driven upstream (akin to CentOS), OpenShift Online is the platform offered as software as a service, 
+and Openshift Dedicated is the platform offered as a managed service
+
+==== Links
+
+* https://www.openshift.com/learn/what-is-openshift[https://www.openshift.com/learn/what-is-openshift]
+* https://en.wikipedia.org/wiki/OpenShift[https://en.wikipedia.org/wiki/OpenShift]
+* https://www.openshift.com/products/container-platform[https://www.openshift.com/products/container-platform]
