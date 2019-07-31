@@ -1,18 +1,54 @@
 [[rbac]]
-
 == User Role based access control
+
+****
+IMPORTANT: *TODO*
 
 Explain the nature of the user model in OCP compared to the visibility of objects.
 Explain admin, edit, view and *no* access models
-[UI] Go to the Overview for the sandbox-xx project created by the user
-[UI] Choose Resources/Membership
-‘Users’ - this should be the user the attendee has logged on as. 
-‘Groups’ - explain the difference between the full name system:serviceaccount:sandbox:xxx (and the ‘all’ groups system:serviceaccounts:projectName)
-‘Service Accounts’ - explain the concept of a ‘virtual’ user within the namespace
-[UI] Adding a user to your project - attendees pick the person next to them, go to Resources/Membership. Choose ‘Users’. Click ‘Edit Membership’. Add the user in the textbox to the left. Pull down the ‘Select a role’ and choose ‘admin’. Hit ‘Add’.
-[UI] Attendees who have been given access to another project can now see that project in the right-hand panel at the Home page (click on the OPENSHIFT CONTAINER PLATFORM logo.
-[UI] Attendees try starting a build in the gifted project.
-Now talk about removing a user
-[oc] for the people who gave the account do ‘oc project sandbox-xx’ (their project)
-[oc] for the people who gave the account do ‘oc adm policy remove-role-from-user admin (user)’
-For the attendees that were given access check the project is removed from the right hand panel in the home page. 
+
+****
+
+Using the project dropdown, go back to the `Sandbox` project we create earlier.
+
+Go to the menu:Resources[Membership] page. (using the left side menu)
+
+You will see 3 tabs:
+
+* *Users:* This should list your user (userX).
+* *Groups:* - TODO: explain the difference between the full name system:serviceaccount:sandbox-userX and the 'all' groups system:serviceaccounts:projectName
+* *Service Accounts* - TODO: explain the concept of a 'virtual' user within the namespace.
+
+In the `Users` Tab, click btn:[Edit Membership] and add the attendee next to you as a user:
+
+* *Name:* UserX+1
+* *Roles:* admin
+
+Click btn:[Add]
+
+You will now see the project assigned to you in your Project list, 
+example `User2` can see `sandbox-user-1` project:
+
+image::screenshot_users.png[User access]
+
+(click on the OPENSHIFT CONTAINER PLATFORM logo)
+
+Now do a build of the application in that project.
+
+Next, let's remove the access from that user using CLI.
+
+First make sure you are using the correct project:
+
+[source,shell]
+----
+oc project sandbox-userX
+----
+
+Next remove the access:
+
+[source,shell]
+----
+oc adm policy remove-role-from-user admin userX+1
+----
+
+Now go back to your project list and note that your access has been removed.
