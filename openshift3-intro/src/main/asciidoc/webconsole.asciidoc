@@ -115,17 +115,14 @@ This Operator (shortened to *OLM*) allows Admins to install Operators as _Subscr
 the security required. The OLM handles the update of the Operators, and the Users can consume them simply by creating Objects of the appropriate Custom Resource. This way 
 Users do not need to install the Operators themselves - installation and Object model update is controlled centrally by the OLM and Administrators.
 
-****
-IMPORTANT: *TODO*
+=== The oc login token 
 
-Explain how the catalog works in terms of templates, quickstarts, services, (optional) operators.
+TIP: It is good practise to use the 'Copy Login Command' from the UI to generate the login statement for accessing the system via oc. This provided token
+is expired when the UI login expires or the User logs out.
 
-Explain in detail - templates are object model definitions that require additional parameters.
-
-Explain in detail - quickstarts are object models definitions that contain predefined parameter values.
-
-Explain the oauth token (derived from the 'copy login command')
-****
+Openshift provides a rich and full RESTful API for interacting, based on the security constraints of the user, with the Openshift
+object model. The UI will generate a valid OAUTH token based on a successful login which can and should be used to attach the 'oc' client to
+a valid session. 
 
 NOTE: Also see the *Web Console Walkthrough*: 
 https://docs.openshift.com/container-platform/3.11/getting_started/developers_console.html[https://docs.openshift.com/container-platform/3.11/getting_started/developers_console.html]
