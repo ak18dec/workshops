@@ -71,7 +71,7 @@
     </developers>
     
     <modules>
-        <module>openshift-intro</module>
+        <module>openshift3-intro</module>
     </modules>
 
     <build>

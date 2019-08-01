@@ -1,4 +1,4 @@
-= Openshift Introduction: Workshop for developers
+= Openshift 3 Introduction: Workshop for developers
 {author} <{email}>
 
 include::intro.asciidoc[]

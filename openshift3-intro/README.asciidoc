@@ -1,4 +1,4 @@
-== Openshift Introduction for developers
+== Openshift 3 Introduction for developers
 
 This workshop needs a custom Jenkins template in the OCP. 
 

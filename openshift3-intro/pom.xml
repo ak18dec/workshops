@@ -25,10 +25,10 @@
     </parent>
     
     <groupId>com.github.phillip-kruger.workshops</groupId>
-    <artifactId>openshift-intro</artifactId>
+    <artifactId>openshift3-intro</artifactId>
     <packaging>pom</packaging>
     
-    <name>Workshops :: Openshift Intro</name>
-    <description>Openshift introduction for developers</description>
+    <name>Workshops :: Openshift 3 Intro</name>
+    <description>Openshift 3 introduction for developers</description>
     
 </project>
