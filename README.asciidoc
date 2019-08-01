@@ -36,8 +36,6 @@ Now wait until you get an email with the details of the environment.
 * *Storage:* NFS with 500 persistent volumes
 * *Participant Users:* user1..userX (where X is the number of users you specified in <<order>> section)
 * *Participant Password:* openshift
-* *Cluster-admin username:* opentlc-mgr 
-* *Cluster-admin password:* r3dh4t1!
 
 ==== Web Console Access
 Replace YOURCITY with the City or Customer name you have provided in RHPDS when ordering the workshop in the <<order>> section.
