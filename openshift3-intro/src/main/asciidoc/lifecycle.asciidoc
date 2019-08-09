@@ -655,6 +655,6 @@ oc describe bc nodetest
 oc delete all -l "app=nodetest"
 ----
 
-*Note* - when we created the Application the temnplate prompted us for the name of the Application. This was then auto-appended to *all* 
+*Note* - when we created the Application the template prompted us for the name of the Application. This was then auto-appended to *all* 
 Objects created as part of the Application as a label set to "app=_name_", in this example "app=nodetest". This allows us to issue commands dealing with
 all the Objects by appending the '-l "app=nodetest"' which makes the command apply *only* to all Objects with that label. 
