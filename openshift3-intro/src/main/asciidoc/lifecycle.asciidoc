@@ -109,13 +109,6 @@ This is translated at the edge of OpenShift into the singular service cluster IP
 the Application. This means that you can change the number of replicas and even the target services of the Route without having to rebuild or redeploy the 
 applications. This disconnect is very powerful in usecases such as Canary Deployments and zero-downtime upgrades/downgrades of Applications. 
 
-****
-IMPORTANT: *TODO*
-
-Explain the nature of the single service endpoint for the application - note the cluster IP address
-
-****
-
 NOTE: More info here: 
 https://docs.openshift.com/container-platform/3.11/architecture/core_concepts/pods_and_services.html#services[https://docs.openshift.com/container-platform/3.11/architecture/core_concepts/pods_and_services.html#services]
 
@@ -142,12 +135,23 @@ Click the menu:Up arrow[] (^) until there are 3 replicas.
 
 image::screenshot_scaling_up.png[Application Scaling]
 
-****
-IMPORTANT: *TODO*
+A quick note on the colour schemes of the Pod UI - the system uses the colour to indicate the state of the Pod(s) in realtime. It can be 
+one of five different colours - transparent indicates the Pod is being physically created; it has been allocated to a Node, that node is allocating the file space 
+but has yet to copy the Image file-layers to it.
 
-Explain the blue, gray, dark blue, red colour schemes for the Pod behaviors
+Gray indicates the Image is being loaded from the Registry and pushed to the Node.
 
-****
+Light blue indicates the Pod is operational and reporting healthy.
+
+Dark blue indicates the Pod has received an event to terminate and is gracefully removing itself.
+
+Red indicates the Pod is in what is called a CrashLoopBackoff state. This is due to the way in which Pods report healthy and the way in which 
+OpenShift deals with unhealthy Pods. A Pod has two health probes - *liveness* and *readiness*. Liveness indicates the Pod file-layers have been initialised, 
+any additional file mounts have been completed *but* the Application is not ready (internally) to process requests. *Liveness* indicates the 
+Application within the Pod is ready to service requests. OpenShift maintains x replicas, as defined by the *deploymentconfig* of an Application 
+and the replica count applies to Pods that are reporting *live*. If a Pod fails to report *live* it is sent a closedown event, OpenShift decides where to deploy 
+the Pod and the Pod is rescheduled. A CrashLoopBackoff occurs when the Pod continually reports unhealthy and is continually recreated,
+a state, because of the nature of the system, which is attempting to self-recover. We'll talk later about ways to debug these kind of 'Red' ring Pods.
 
 Click on the kbd:[Pod ring], or alternatively use the menu menu:Applications[Deployments > nodetest > #1 (latest)].
 
@@ -161,12 +165,6 @@ Select on of the recent (younger) pods.
 
 TIP: Note the IP difference compared to the initial pod.
 
-****
-IMPORTANT: *TODO*
-
-Explain the load-balancing of Pod IP endpoints from the singular cluster IP and how that abstracts from the Route.
-
-****
 
 [[lifecycle-application-route]]
 ==== Application Route
@@ -249,13 +247,6 @@ oc delete pod nodetest-****
 
 image::screenshot_deleting_pod.png[Deleting a pod]
 
-****
-IMPORTANT: *TODO*
-
-Explain the nature of Liveness (kill/restart) and Readiness (if not ready Pod IP is removed from the round-robin HAProxy)
-
-****
-
 [[lifecycle-health-checks]]
 ==== Health Checks
 
@@ -270,24 +261,19 @@ Click on the `Learn More` link or
 here: https://docs.openshift.com/container-platform/3.11/dev_guide/application_health.html[https://docs.openshift.com/container-platform/3.11/dev_guide/application_health.html]
 to read more about Health probes
 
-****
-IMPORTANT: *TODO*
-
-Explain the concepts of the readiness and health probes
-
-****
-
 [[lifecycle-rolling-recreate]]
 ==== Application Deployment Strategies
 
 From the menu: menu:Applications[Deployment > nodetest > Configuration]
 
-****
-IMPORTANT: *TODO*
+The deployments can be done in one of two strategic ways. These strategies were designed to cater for two prominent real-world usecases. The first of which is 
+the case where you want to perform a zero-downtime deployment. This is the case where, for example, you have an Application that requires cosmetic changes. In this situation 
+you would set the strategy of the deployment to 'Rolling'. This works by ensuring that during the transition, which entails creating a new copy of the Application Pod, then 
+sending one of the previous Pods a 'shutdown' event. This means at *all* time the count of active Pods does *not* fall below the required replica count.
 
-Explain rolling and recreate - explain deployment triggers (image and config)
-
-****
+The second usecase involves needing to remove *all* active copies of the older versions of the Pod before starting the new version. This would cater for situation where, for instances, there was a
+serious security flaw in the Container Image that needed to be fixed instantly. Setting the strategy to 'recreate' forces OpenShift to not only send a shutdown event 
+to every active Pod in the Application but also to wait for all the Pods to complete terminating before the new versions of the Application are started.
 
 In the top right corner, click the btn:[Actions > Edit] button.
 
@@ -331,22 +317,17 @@ Go to menu:Storage[] page and select btn:[Create Storage]:
 
 Click btn:[Create]
 
-****
-IMPORTANT: *TODO*
+*Persistent Volumes* and *Persistent Volume Claims* are a fantastic feature of OpenShift that allow file systems to be mounted into Containers that retain 
+file storage when the Container goes away or is restarted. The concept of *Persisted Volume* is a chunk of storage that is ring-fenced for a Project. This means when 
+you create a PV that space is assigned to the Project only, but *not* mapped into the Containers. To map the storage the concept of *Persisted Volume Claim* is used 
+which locks the storage into a mount point in the Container. 
 
-Explain the nature of PVs, how they are exported to all nodes, how the Container Runtime maps them into the Container at deployment as an additional file system
-
-****
+The PVs can be created with different retention strategies. How this works is when there are no longer any PVCs that refer to the PV it is either *retained*, meaning the PV is kept ring-fenced and 
+the contents of the PV are left as is so when a new PVC is created it can continue, or *deleted* meaning the contents of the PV are wiped and the storage is released for other 
+projects to consume. 
 
 Now we will assign this storage to our application. Go to menu:Applications[Deployments] and select `nodetest` and select the `Configuration` tab. 
 Under the Volumes section, click `Add Storage`
-
-****
-IMPORTANT: *TODO*
-
-Explain the nature of a PVC which locks the storage into the container
-
-****
 
 Select the `test` storage option (This is the one we just created)
 
@@ -407,13 +388,12 @@ Type the following:
 ps -ef
 ----
 
-****
-IMPORTANT: *TODO*
-
-Explain the ‘it thinks it is an OS’ concept, explain SELinux constraints around the ‘ps -ef’, 
-note the addition of the new disk at the mount point provided at the PV creation
-
-****
+At their core Containers are simply file systems with delusions of grandeur. The Image is written to the Node and the Container Runtime then executes it as a process. 
+As far as the Container is concerned it is an Operating System. OpenShift cleverly locks the aspects of the Node specifically to the individual Containers - 
+each Container is locked down using SELINUX constraints meaning not only can it not see the Host components that don't have the appropriate SELINUX labels but 
+also not see other Containers _from the same Application_ as they have sub-labelled SELINUX constraints of their own. This means that 
+when you remote-shell into the Application and examine the user, the processes and the filesystems you *only* see the ones specific to the Container - OpenShift
+*contains* Containers.
 
 Now let's go to the volume mount point and create a file in the root:
 
@@ -439,12 +419,7 @@ drwxr-xr-x. root       root  system_u:object_r:container_file_t:s0:c9,c19   ..
 -rw-r--r--. 1000360000 65534 system_u:object_r:nfs_t:s0                     test1.txt
 ----
 
-****
-IMPORTANT: *TODO*
-
-Explain the selinux constraints
-
-****
+Note the SELINUX constraints on the file systems. The s0:c9:c19 label is specific to the _container_.
 
 Now, in the CLI (NOT the terminal we have been using just now), do the following:
 
@@ -464,12 +439,9 @@ nodetest-2-7dnjv   1/1     Running     0          12m   10.1.4.14   node1.jhb-94
 nodetest-2-nfnlf   1/1     Running     0          12m   10.1.4.13   node1.jhb-94d8.internal   <none>
 ----
 
-****
-IMPORTANT: *TODO*
+Choose two Pods that have landed on different physical Nodes. Make a note of the two Pod names - for information the structure of the Pod name is as follows - 
+_(ApplicationName)_-_(deployment number)_-_(random five character identifier)_
 
-Find two Pods on physically separate Nodes - take note of the Pod names - explain the format, name-(x)-(randomchars)
-
-****
 Go back to the menu:Overview[] page.
 
 Click on the kbd:[Pod ring] and select the first (top) pod in the `Pods` section.
@@ -508,24 +480,19 @@ Hello world
 
 As you can see the file is available on all pods.
 
-****
-IMPORTANT: *TODO*
-
-Explain the nature of the single file in persisted storage across multiple physical nodes
-
-****
+Note that because we chose the *RWO* (ReadWriteOnce) this sets up a Persisted Volume that exists *once* across the entire Cluster. This means that if you
+have multiple replicas of an Application in Pods on different Nodes they are all mounted to the *same* piece of filespace. If one Pod 
+changes the contents of a file that change is visible to all Pods of that Application.
 
 [[lifecycle-config-maps]]
 ==== Config Maps
 
 Navigate to menu:Resources[Config Maps] and then click btn:[Create Config Map]
 
-****
-IMPORTANT: *TODO*
-
-Discuss the nature of config maps as environment vars
-
-****
+In this scenario we are going to express the contents of a configmap within the Container as environment variables. You can 
+already define environment variables to be expressed into an Application as part of the *deploymentconfig* but these are Application specific in 
+that they are controlled and injected as part of the deployment. With a configmap that is within the Project but external to the Application these environment 
+variables can be shared across multiple Applications and centrally changed.
 
 Enter the following in the fields:
 * *Name:* configmapenv
