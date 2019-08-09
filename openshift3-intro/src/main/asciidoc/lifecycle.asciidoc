@@ -59,14 +59,23 @@ image::screenshot_s2i_wizard.png[S2I Wizard]
 
 Now go back to the menu:Overview[] page.
 
-****
-IMPORTANT: *TODO*
+What has happened is that the OpenShift system has processed the template, in this case one for a node.js Application 
+based on an S2I build, and produced *all* of the Objects needed within the User's project to realise this. If you are quick enough to 
+watch the Overview you'll see first a Build appear. This is a Build Pod that has been spun off within the Project using the configuration 
+generated from the Templates and implemented in a *BuildConfig* Object. The small window in the bottom right corner shows the 
+log of the build as it happens - the source will be cloned into the Build Pod, the code compiled appropriately (using npm in this case)
+and then the composite Application Image is constructed (you will see layers being written).
 
-Explain the behaviour that is happening, the creation of the objects from the template, 
-the build-config being used by the build, the build delivering the image into the registry, 
-the deployment-config waiting on the image arrival, the default single Pod deployment, the creation of the route
+When the Image is completed it is delivered from the BuildPod into the Integrated Registry within OpenShift with the appropriate labels and tags
+that identify it as the nodetest Application in this Project. As part of the template realisation a DeploymentConfig would have been created 
+as well - this is sitting watching the Registry for the creation or update of the named Image, and when the build is complete the 
+addition of that Image to the Registry will automatically start a deployment.
 
-****
+The Template defines this deployment to be a single Pod of the Application with a service (hooking into the 8080 port of the Pod), and a *Route* for 
+external connectivity. All of these are created automatically and once the deployment starts you can watch the state of the deployment 
+by looking at the colour of the ring around the Pod - when gray it is *pulling* the Image from the Integrated Registry and delivering it 
+to the Node that has been targetted (internally within OpenShift) to host this instance. When the ring turns to light blue the Pod is running 
+successfully and is ready to service requests.
 
 [[lifecycle-running]]
 === The running application
@@ -92,6 +101,13 @@ image::screenshot_node_app.png[Node.js Application]
 Using the menu on the left go to the menu:Applications[Services] page.
 
 image::screenshot_app_services.png[Application Services]
+
+Another thing that makes Kubernetes and OpenShift so powerful is the abstracted nature of the service endpoints. Each running Application has 
+a single service endpoint, which is the load-balancing point for the Application within the *Software-Defined-Network* that OpenShift
+uses for internal communication. From the outside consumers of the Application use a FQDN (fully qualified domain name) which refers to the *Route*.
+This is translated at the edge of OpenShift into the singular service cluster IP. This is then a load-balancer across *all* the replicas of 
+the Application. This means that you can change the number of replicas and even the target services of the Route without having to rebuild or redeploy the 
+applications. This disconnect is very powerful in usecases such as Canary Deployments and zero-downtime upgrades/downgrades of Applications. 
 
 ****
 IMPORTANT: *TODO*
