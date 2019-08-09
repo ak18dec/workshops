@@ -521,22 +521,12 @@ env | grep CONFIGENV
 
 You will see the key/value we just created.
 
-****
-IMPORTANT: *TODO*
-
-Explain the relevance of the environment variable - not part of the deployment, applied at the container level
-
-****
-
 Now let's create another config map.
 Navigate back to menu:Resources[Config Maps] and then click btn:[Create Config Map]
 
-****
-IMPORTANT: *TODO*
-
-Discuss the nature of config maps as an embedded overlay file (overwriting image contents)
-
-****
+This approach entails expressing the contents of a configmap into the Container as a physical file. This is extremely powerful in that you can physically overwrite
+files that are defined in the Image itself - a good example of this is having an Image for a technology that is configured at runtime by reading values from
+a configuration file. Using a configmap you can express different versions of the file into the Container _without having to rebuild the Image_.
 
 Enter the following in the fields:
 * *Name:* configmapfile
@@ -567,13 +557,11 @@ cat myapp.conf
 
 You will see the value we just created.
 
-****
-IMPORTANT: *TODO*
-
-Explain the nature of the config map being written as a file into the container file system - external to image
-Discuss the difference between configmaps and secrets
-
-****
+How this actually works is the configmap, and also *secrets* which work in a similar fashion but are encrypted at rest and on the nodes, are
+copied to the filesystem of the Node and then linked into the running Container using a symbolic link locked down with the appropriate SELINUX constraints.
+The file doesn't appear as a mounted filesystem, like the *Persisted Volumes* and is separate physically from the Container, again meaning you can change the
+contents of the configmap, a deployment will automatically occur (as you've changed the configuration of the deployment) and the new Pod will have the
+new configmap file visible.
 
 [[lifecycle-secrets]]
 ==== Secrets
@@ -604,12 +592,9 @@ Select the `Terminal` tab and then type the following:
 env | grep password
 ----
 
-****
-IMPORTANT: *TODO*
-
-Explain the encrypted nature of the secret outside of the Pods
-
-****
+Secrets are a specially handled Object within OpenShift in that they are encrypted at creation, so before they are linked to any deployment they are unreadable, and when
+they are written to the Nodes and expressed into the Container they are encrypted on the filesystem of the Node, meaning a sysadmin with access to the Node would not be able to
+read them. They are unencrypted within the running Container.
 
 Now, in the CLI (NOT the terminal we have been using just now), do the following:
 
@@ -659,13 +644,6 @@ metadata:
 type: Opaque
 ----
 
-****
-IMPORTANT: *TODO*
-
-Explain the encryption of the secret at the object level
-
-****
-
 [[lifecycle-cleanup]]
 === Clean up
 
@@ -677,10 +655,6 @@ oc describe bc nodetest
 oc delete all -l "app=nodetest"
 ----
 
-****
-IMPORTANT: *TODO*
-
-Point out the Label (app=nodetest), explain its relevance, explain the nature of the extensible object model
-Explain the clean-up process
-
-****
+*Note* - when we created the Application the temnplate prompted us for the name of the Application. This was then auto-appended to *all* 
+Objects created as part of the Application as a label set to "app=_name_", in this example "app=nodetest". This allows us to issue commands dealing with
+all the Objects by appending the '-l "app=nodetest"' which makes the command apply *only* to all Objects with that label. 
