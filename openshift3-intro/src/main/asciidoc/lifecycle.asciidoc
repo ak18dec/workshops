@@ -1,12 +1,28 @@
 [[lifecycle]]
 == Simple application lifecycle
 
-****
-IMPORTANT: *TODO*
+=== Quick Introduction to the Build process
+One of the most exciting features of OpenShift from a developer's perspective is the concept of the S2I, or *Source-2-Image* 
+which provides a standardised way of taking a base image, containing, for example, the framework for running a node.js application, 
+a source code repository, containing the code of the application that matches the framework provided in the base image, and constructing 
+and delivering a composite Application image to the Registry. 
 
-Describe the scripts within an S2I build (compile, assemble, execute)
+The standardised nature of the S2I approach means that, in the case where Red Hat do not provide out-of-the-box facilities for 
+a framework, it is simple to create the S2I scripts and use them in exactly the same fashion as the out-of-the-box scripts.
 
-****
+The S2I works in effectively three phases - a compilation phase, which is OpenShift agnostic and simply, in the case of requiring it, 
+compiles the source material to the binary components, or interim bytecode formats, required for the framework. In the case of Java, for example, 
+this would entail executing a Maven build on the source provided in the repository. The second phase is to construct the composite
+image for the Application by injecting the binary components into the appropriate filespace in the base image. The third phase is to setup 
+the execution context for the Application, i.e. how it is started, for example in the case of a Java web-app running on a Tomcat base 
+this would be executing the bin/startup.sh script.
+
+A nice feature of this approach is the capability of the S2I scripts to also be executed in what is called *Binary* mode. This allows the 
+script to ignore the compilation phase and be provided with the binary components required to build the Application. This is a usecase for 
+developers who wish to either bring pre-compiled components for their Apps or in the situation where an organisation has an existing 
+build farm for applications where the binary artefacts are tested and config controlled outside of OpenShift. This mode is called 'binary build'.
+
+In the following example we will take advantage of the node.js builder S2I script in OpenShift.
 
 [[lifecycle-s2i]]
 === Deploying an application using S2I
@@ -21,21 +37,17 @@ image::screenshot_catalog_filter_js.png[Node application]
 
 You will now go though a wizard to gather all data needed for this S2I build config:
 
-****
-IMPORTANT: *TODO*
-
-Explain the nature of the wizards
-
-****
+The UI provides Wizards based on the templates installed (which are the selections chosen from in the Catalog). These Wizards 
+explain the nature of the chosen template, and then prompt the User for specific information which is required to perform the full lifecycle 
+build and deployment of the target application. 
 
 * Click btn:[Next] on first page of Wizard.
 
-****
-IMPORTANT: *TODO*
-
-Explain the parameter fields as pertains to templates
-
-****
+Each template has a set of parameters that are either optional or mandatory. The Wizard provides a way for the User to enter the 
+information - in the case of the node.js there are only three pieces of mandatory information required to create, build and deploy the 
+node.js application. The Wizards also provide additional 'advanced' options which are the optional parameters for specialising the build, for 
+example if you are using a code repository that has secure access you need to provide what is known as a *Pull Secret* which will allow 
+OpenShift, which is running the Build as a standalone Pod, to clone the source material from your repository. This is one of the optional parameters. 
 
 * Select node image version *10*
 * Enter name as `nodetest`
