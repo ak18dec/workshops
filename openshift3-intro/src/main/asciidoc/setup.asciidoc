@@ -4,7 +4,7 @@
 [[setup-webconsole]]
 === Web console
 
-You will be assigned an ID by the facilitator. At any time that the content refer to userX, (or _anything_X) you need to replace X with your ID.
+You will be assigned an ID by the facilitator. At any time that the content refer to _userX_, (or _anythingX_) you need to replace X with your ID.
 Your userId to log onto the web console will be _userX_ and the password will be _openshift_
 
 You can access the web console using your browser:
