@@ -93,6 +93,7 @@
                     
                     <sourceHighlighter>rouge</sourceHighlighter>
                     
+                    
                     <attributes>
                         <rouge-style>monokai</rouge-style>
                         
@@ -123,6 +124,7 @@
                         <webConsoleUrl>${webConsoleUrl}</webConsoleUrl>
                         <orgname>Red Hat</orgname>
                         
+                        <stylesheet>fedora.css</stylesheet>
                     </attributes>
                 </configuration>
 
